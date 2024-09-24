@@ -9,11 +9,28 @@
     <div style="text-align: center">
       <h1>Australia temperature station record</h1>
     </div>
-    <div style="margin: auto; width: 100%; padding: auto; text-align: center">
-      <div id="vis"></div>
+    <div
+      style="
+        margin: auto;
+        width: 100%;
+        padding: auto;
+        text-align: center;
+        padding-left: 10%;
+      "
+    >
+      <div style="display: flex">
+        <div>
+          <h2>Temperature map for australia</h2>
+          <div id="vis"></div>
+        </div>
+        <div>
+          <h2>Temperature over time in Australia</h2>
+          <div id="vis2"></div>
+        </div>
+      </div>
     </div>
     <div style="text-align: center">
-      Data is create by Huynh Phuc Nguyen Nguyen
+      Data is created by Huynh Phuc Nguyen Nguyen
     </div>
 
     <script>
@@ -27,7 +44,7 @@
               url: "./data/auss.json",
               format: {
                 type: "topojson",
-                feature: "austates", // Change this line
+                feature: "austates",
               },
             },
             mark: {
@@ -56,6 +73,22 @@
       };
 
       vegaEmbed("#vis", spec, { mode: "vega-lite" })
+        .then(console.log)
+        .catch(console.warn);
+
+      const spec2 = {
+        $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+        data: { url: "./data/data.csv" },
+        mark: "line",
+        width: 800, // Specify width
+        height: 400, // Specify height
+        encoding: {
+          x: { field: "year", type: "temporal" }, // Use temporal for date
+          y: { field: "temperature", type: "quantitative", aggregate: "mean" },
+        },
+      };
+
+      vegaEmbed("#vis2", spec2, { mode: "vega-lite" })
         .then(console.log)
         .catch(console.warn);
     </script>
